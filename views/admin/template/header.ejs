@@ -11,11 +11,6 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="https://pilkada.jambikota.go.id/assets/front/image/favicon.ico">
 
-        <!-- datepicker -->
-        <link href="/admin_template/dist/assets/libs/air-datepicker/css/datepicker.min.css" rel="stylesheet" type="text/css" />
-
-        <!-- jvectormap -->
-        <link href="/admin_template/dist/assets/libs/jqvmap/jqvmap.min.css" rel="stylesheet" />
         <!-- sweetalert -->
         <link href="/admin_template/dist/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
         
@@ -28,17 +23,17 @@
         <!-- Icons Css -->
         <link href="/admin_template/dist/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="/admin_template/dist/assets/css/app.css" rel="stylesheet" type="text/css" />
+        <link href="/admin_template/dist/assets/css/app_custom.min.css" rel="stylesheet" type="text/css" />
         <link href="/admin_template/dist/assets/css/loader.css" rel="stylesheet preconnect" type="text/css" />
 
 		<!-- DataTables -->
 		<link href="/admin_template/dist/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-		<link href="/admin_template/dist/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
 		<!-- Responsive datatable examples -->
 		<link href="/admin_template/dist/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
 		<script>
 			const baseUrl = 'http://localhost:8888/';
+            const userRole = <%= userLogin.role %>;
 		</script>
 
     </head>
@@ -86,19 +81,19 @@
                         <div class="navbar-brand-box">
                             <a href="#" class="logo logo-dark text-white">
                                 <span class="logo-sm">
-                                    <img src="admin_template/dist/assets/images/mini-logo.png" alt="" height="30">
+                                    <img src="/admin_template/dist/assets/images/mini-logo.png" alt="" height="30">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="admin_template/dist/assets/images/mini-logo.png" class="pr-2" alt="" height="20"> <b>ADMINISTRATOR</b>
+                                    <img src="/admin_template/dist/assets/images/mini-logo.png" class="pr-2" alt="" height="20"> <b>ADMINISTRATOR</b>
                                 </span>
                             </a>
 
                             <a href="#" class="logo logo-light text-white">
                                 <span class="logo-sm">
-                                    <img src="admin_template/dist/assets/images/mini-logo.png" alt="" height="22">
+                                    <img src="/admin_template/dist/assets/images/mini-logo.png" alt="" height="22">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="admin_template/dist/assets/images/mini-logo.png" alt="" height="20">
+                                    <img src="/admin_template/dist/assets/images/mini-logo.png" alt="" height="20">
                                 </span>
                             </a>
                         </div>
@@ -119,7 +114,7 @@
                     <div class="d-flex">
 
                         <!-- <?php if($uri1 == 'master_data' || $uri1 == 'user'): ?> -->
-                        <div class="dropdown d-inline-block d-lg-none ml-2">
+                        <div class="dropdown d-inline-block d-lg-none ml-2" id="searchDropdown">
                             <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="mdi mdi-magnify"></i>
@@ -143,7 +138,7 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <!-- item-->
-                                <a class="dropdown-item" href="/edit_profil'%>"><i class="mdi mdi-settings-outline font-size-16 align-middle mr-1"></i> Edit Profil</a>
+                                <a class="dropdown-item" href="/users/edit_profil/<%= userLogin.id %>"><i class="mdi mdi-settings-outline font-size-16 align-middle mr-1"></i> Edit Profil</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/auth/logout"><i class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Logout</a>
                             </div>
@@ -199,7 +194,7 @@
                         <div class="container-fluid">
                             <div class="row align-items-center">
                                 <div class="col-md-8">
-                                    <h4 class="page-title mb-1"><?= $title ?></h4>
+                                    <h4 class="page-title mb-1"><%= title %></h4>
                                     <ol class="breadcrumb m-0">
                                     </ol>
                                 </div>

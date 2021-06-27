@@ -2,6 +2,7 @@ const columns = [
     {title: "#"},
     {title: "Nama"},
     {title: "Username"},
+    {title: "Role"},
     {title: "Operasi"},
 ];
 
@@ -12,7 +13,9 @@ const getData = () => {
     $.get(url).done((res) => {
         $.each(res, (i, dt) => {
             i += 1;
-            data = [i, `<p class="font-weight-bold text-primary m-0">${dt.name}</p>`, dt.username,  generateOpr(dt.id, dt.name, dt.username)];
+            let role = "Admin";
+            dt.role == 1 && (role = "Superadmin");
+            data = [i, `<p class="font-weight-bold text-primary m-0">${dt.name}</p>`, dt.username, role,  generateOpr(dt.id, dt.name, dt.username)];
             dataset.push(data);
         });
     }).fail(() => {
@@ -23,14 +26,17 @@ const getData = () => {
 }
 
 const generateOpr = (id, name, username) => {
-    let opr = `<div class="btn-group" role="group">
+    let opr = "";
+    userRole == 1 && (
+        opr = `<div class="btn-group" role="group">
                     <button type="button" data-id="${id}" class="edit-btn btn btn-light btn-sm" data-toggle="modal" data-target="#editModal" data-id="${id}" data-name="${name}" data-username="${username}">
                         <i class="h5 mdi mdi-pencil text-success"></i>
                     </button>
                     <button type="button" onclick="delConfirm('users','${id}')" data-id="${id}" class="btn btn-light btn-sm" data-toggle="tooltip" data-placement="top" title="Delete">
                         <i class="h5 mdi mdi-trash-can text-danger"></i>
                     </button>
-                </div>`;
+                </div>`
+    );
     return opr;
 }
 

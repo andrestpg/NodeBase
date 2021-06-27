@@ -14,6 +14,10 @@ $('a#reload').on('click', function() {
     getData();
 });
 
+$('#searchDropdown').on('shown.bs.dropdown' , () => {
+    $('#searchMobile').focus();
+});
+
 $('#searchDesktop, #searchMobile').on('keypress', (e) => {
     e.keyCode == 13 && e.preventDefault();
 });

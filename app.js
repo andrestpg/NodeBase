@@ -20,6 +20,7 @@ app.use(express.static('assets'));
 app.set('view engine', 'ejs');
 
 app.get('*', checkUser);
+app.post('*', checkUser);
 // Home-----------------
 app.get('/',async (req, res) => {
     res.redirect('/users')

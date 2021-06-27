@@ -13,6 +13,7 @@ const requireAuth = (req, res, next) => {
                 res.redirect('/auth');
             }else{
                 console.log(decodedToken);
+                res.locals.baseUrl = "http://localhost:8888/"
                 next();
             }
         });
@@ -26,11 +27,11 @@ const checkUser = async (req, res, next) => {
     let conn = await checkDbConn();
     if(conn){
         const token = req.cookies.authToken;
+        res.locals.userRole = "Admin";
     
         if(token){
             jwt.verify(token, myToken.secretKey, async (err, decodedToken) => {
                 if(err){
-                    console.log(err);
                     res.locals.userLogin = null;
                     next();
                 }else{
@@ -39,7 +40,9 @@ const checkUser = async (req, res, next) => {
                             id: decodedToken.id
                         }
                     });
+
                     res.locals.userLogin = user;
+                    user.role == 1 && (res.locals.userRole = "Superadmin");
                     next();
                 }
             });

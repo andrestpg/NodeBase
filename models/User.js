@@ -19,6 +19,11 @@ const User = db.define('user', {
             }
         }
     },
+    role: {
+        type: Sequelize.INTEGER(1),
+        allowNull: false,
+        defaultValue: 0
+    },
     username: {
         type: Sequelize.STRING(20),
         unique: {
@@ -45,7 +50,7 @@ const User = db.define('user', {
 
 
 (async () => {
-    await db.sync();
+    await db.sync({alter: true});
 })();
 
 module.exports = User;

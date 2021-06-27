@@ -77,8 +77,6 @@
         <!-- Required datatable js -->
         <script src="/admin_template/dist/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="/admin_template/dist/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-        <script rel="preconnect" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ==" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables-plugins/1.10.24/sorting/datetime-moment.min.js" integrity="sha512-PaO30G69+sC7Pxe6iCB+WeRdboWG6RwTLOu6d8+dTJWdZ9nxB3tJIJJP37FRtvccGYqlvFESvjyZwbZ3OjThMw==" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/validate-js/2.0.1/validate.min.js" integrity="sha512-8GLIg5ayTvD6F9ML/cSRMD19nHqaLPWxISikfc5hsMJyX7Pm+IIbHlhBDY2slGisYLBqiVNVll+71CYDD5RBqA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <!-- Sweetalert -->
@@ -88,11 +86,10 @@
         <script src="/admin_template/dist/assets/libs/selectize/js/standalone/selectize.min.js"></script>
 
         <script src="/admin_template/dist/assets/js/app.js"></script>
-        <script src="/admin_template/dist/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
         
         <script src="/admin_template/dist/assets/js/utility.js"></script>
-
-        <% if(script){ %>
+    
+        <% if(typeof script !== "undefined"){ %>
             <script src="/admin_template/dist/assets/js/<%= script %>"></script>
         <% } %>
 

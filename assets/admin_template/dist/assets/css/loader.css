@@ -33,10 +33,12 @@
 }
 
 .loader-primary{
+    border: 3px solid #667dfd69;
     border-top: 3.3px solid #3051D3 !important;
 }
 
 .loader-success{
+    border: 3px solid #66fda070;
     border-top: 3.3px solid #3ddc97 !important;
 }
 

@@ -9,6 +9,7 @@ module.exports.get_all = async (req, res) => {
                 'id',
                 'name',
                 'username',
+                'role',
             ],
             where: {
                 [Op.not]:{id: res.locals.userLogin.id}
@@ -20,12 +21,16 @@ module.exports.get_all = async (req, res) => {
         res.json(userdata);
     }catch(err){
         console.log(err);
-        res.status(500).json({message: "gagal memuat data"});
+        res.status(500).json({
+            status: 0,
+            message: "gagal memuat data"
+        });
     }
 }
 
 module.exports.get_one = async (req, res) => {
     const id = req.params.id;
+
     try{
         let user = await User.findOne({
             attributes: [
@@ -42,7 +47,10 @@ module.exports.get_one = async (req, res) => {
         res.json(user);
     }catch(err){
         console.log(err);
-        res.status(500).json({message: "User tidak ditemukan!"});
+        res.status(500).json({
+            status: 0,
+            message: "User tidak ditemukan!"
+        });
     }
 }
 
@@ -57,22 +65,25 @@ module.exports.user_get = (req, res) => {
 module.exports.user_add = async (req, res) => {
     const {name, username, password} = req.body;
     const hashPass = await hashPassword(password);
-    try{
-        let user = await User.create({
-            name: name,
-            username: username,
-            password: hashPass
-        });
-        res.json({
-            status:1,
-            resId: user.id
-        });
-    }catch(err){
-        res.status(500).json({
-            status: 0,
-            message: "gagal menyimpan data",
-            desc: err['errors'][0]['message'],
-        });
+
+    if(res.locals.userLogin.role === 1){
+        try{
+            let user = await User.create({
+                name: name,
+                username: username,
+                password: hashPass
+            });
+            res.json({
+                status:1,
+                resId: user.id
+            });
+        }catch(err){
+            res.status(500).json({
+                status: 0,
+                message: "gagal menyimpan data",
+                desc: err['errors'][0]['message'],
+            });
+        }
     }
 }
  
@@ -95,37 +106,99 @@ module.exports.user_edit = async (req, res) => {
         };
     }
 
-    try{
-        await User.update( postData, {
-            where: {
-                id: id
-            }
-        });
-        res.json({status:1});
-    }catch(err){
-        console.log(err);
-        res.status(500).json({
-            status: 0,
-            message: "gagal mengubah data",
-            desc: err['errors'][0]['message'],
-        });
+    if(res.locals.userLogin.role === 1){
+        try{
+            await User.update( postData, {
+                where: {
+                    id: id
+                }
+            });
+            res.json({status:1});
+        }catch(err){
+            console.log(err);
+            res.status(500).json({
+                status: 0,
+                message: "gagal mengubah data",
+                desc: err['errors'][0]['message'],
+            });
+        }
+    }else{
+        res.status(500).send("Anda tidak memiliki akses!");
     }
+
 }
 
 module.exports.user_delete = async (req, res) => {
     const id = req.params.id;
-    try{
-        await User.destroy({
-            where: {
-                id: id
-            }
-        });
-        res.json({status:1});
-    }catch(err){
-        res.status(500).json({
-            status: 0,
-            message: "gagal menghapus data"
-        });
+    
+    if(res.locals.userLogin.role === 1){
+        try{
+            await User.destroy({
+                where: {
+                    id: id
+                }
+            });
+            res.json({status:1});
+        }catch(err){
+            res.status(500).json({
+                status: 0,
+                message: "gagal menghapus data"
+            });
+        }
+    }else{
+        res.status(500).send("Anda tidak memiliki akses!");
+    }
+}
+
+module.exports.edit_profil_page = (req, res) => {
+    res.render('admin/user/edit_profil', {
+        title: "Edit Profil",
+        validation: "editProfilValidation.js",
+        script: "editProfil.js"
+    });
+}
+
+module.exports.edit_profil_post = async (req, res) => {
+    const id = req.params.id;
+    const {name, username, password} = req.body;
+    let hashPass = "";
+
+    let postData = {
+        name: name,
+        username: username,
+    };
+    
+    if(password != "" ){
+        try{
+            hashPass = await hashPassword(password);
+            postData = {
+                name: name,
+                username: username,
+                password: hashPass
+            };
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    if(res.locals.userLogin.id == id){
+        try{
+            await User.update( postData, {
+                where: {
+                    id: id
+                }
+            });
+            res.json({status:1});
+        }catch(err){
+            console.log(err);
+            res.status(500).json({
+                status: 0,
+                message: "gagal mengubah data",
+                desc: err['errors'][0]['message'],
+            });
+        }
+    }else{
+        res.status(500).send("Anda tidak memiliki akses!");
     }
 }
 
