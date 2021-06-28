@@ -3,7 +3,7 @@ $('#authForm').on('submit', function(e){
     new FormValidator(this, [ {
         name: 'username',
         display: 'username',
-        rules: 'required|alpha_numeric'
+        rules: 'required|alpha_dash'
     }, {
         name: 'password',
         display: 'password',

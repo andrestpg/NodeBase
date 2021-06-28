@@ -63,7 +63,7 @@ module.exports.user_get = (req, res) => {
 }
  
 module.exports.user_add = async (req, res) => {
-    const {name, username, password} = req.body;
+    const {name, username, password, role} = req.body;
     const hashPass = await hashPassword(password);
 
     if(res.locals.userLogin.role === 1){
@@ -71,7 +71,8 @@ module.exports.user_add = async (req, res) => {
             let user = await User.create({
                 name: name,
                 username: username,
-                password: hashPass
+                role: role,
+                password: hashPass,
             });
             res.json({
                 status:1,
@@ -89,12 +90,13 @@ module.exports.user_add = async (req, res) => {
  
 module.exports.user_edit = async (req, res) => {
     const id = req.params.id;
-    const {name, username, password} = req.body;
+    const {name, username, password, role} = req.body;
     let hashPass = "";
 
     let postData = {
         name: name,
         username: username,
+        role: role,
     };
     
     if(password != "" ){
@@ -102,6 +104,7 @@ module.exports.user_edit = async (req, res) => {
         let postData = {
             name: name,
             username: username,
+            role: role,
             password: hashPass
         };
     }

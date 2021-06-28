@@ -11,7 +11,7 @@ const authUser = (username, password) => {
             password: password,
             saveDevice: saveDevice
         }).done( res => {
-            res.status == 1 && ($('#authBtnText').html('Redirecting'),location.assign('/'));
+            res.status == 1 && ($('#authBtnText').html('Redirecting'),location.assign('/users'));
             res.status == 0 && ($('.loader-wrapper').addClass('hide'), $('#authBtnText').html('Log in'), showAlert(res.msg)); 
         });
     },500);

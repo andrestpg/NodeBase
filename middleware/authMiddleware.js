@@ -59,6 +59,26 @@ const checkUser = async (req, res, next) => {
     }
 }
 
+const checkUserLogin = (req, res, next) => {
+    const token = req.cookies.authToken;
+
+    if(token){
+        jwt.verify(token, myToken.secretKey, (err, decodedToken) => {
+            if(err){
+                console.log(err);
+                next();
+            }else{
+                console.log(decodedToken);
+                res.locals.baseUrl = "http://localhost:8888/"
+                res.redirect('/users');
+            }
+        });
+
+    }else{
+        next()
+    }
+}
+
 const checkDbConn = async () => {
     try{
         await sequelize.authenticate();
@@ -69,4 +89,4 @@ const checkDbConn = async () => {
     }
 }
 
-module.exports = {requireAuth, checkUser};
+module.exports = {requireAuth, checkUser, checkUserLogin};

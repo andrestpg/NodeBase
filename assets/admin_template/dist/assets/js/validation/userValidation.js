@@ -3,11 +3,11 @@ $('#userForm').on('submit', function(e){
     new FormValidator(this, [{
         name: 'name',
         display: 'name',
-        rules: 'required|alpha_numeric'
+        rules: 'required'
     }, {
         name: 'username',
         display: 'username',
-        rules: 'required|alpha_numeric'
+        rules: 'required|alpha_dash'
     }, {
         name: 'password1',
         display: 'password',
@@ -39,11 +39,11 @@ $('#userEditForm').on('submit', function(e){
     new FormValidator(this, [{
         name: 'nameEdit',
         display: 'name',
-        rules: 'required|alpha_numeric'
+        rules: 'required'
     }, {
         name: 'usernameEdit',
         display: 'username',
-        rules: 'required|alpha_numeric'
+        rules: 'required|alpha_dash'
     }, {
         name: 'password1Edit',
         display: 'password',

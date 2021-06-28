@@ -15,7 +15,7 @@ const getData = () => {
             i += 1;
             let role = "Admin";
             dt.role == 1 && (role = "Superadmin");
-            data = [i, `<p class="font-weight-bold text-primary m-0">${dt.name}</p>`, dt.username, role,  generateOpr(dt.id, dt.name, dt.username)];
+            data = [i, `<p class="font-weight-bold text-primary m-0">${dt.name}</p>`, dt.username, role,  generateOpr(dt.id, dt.name, dt.username, dt.role)];
             dataset.push(data);
         });
     }).fail(() => {
@@ -25,11 +25,11 @@ const getData = () => {
     });
 }
 
-const generateOpr = (id, name, username) => {
+const generateOpr = (id, name, username, role) => {
     let opr = "";
     userRole == 1 && (
         opr = `<div class="btn-group" role="group">
-                    <button type="button" data-id="${id}" class="edit-btn btn btn-light btn-sm" data-toggle="modal" data-target="#editModal" data-id="${id}" data-name="${name}" data-username="${username}">
+                    <button type="button" data-id="${id}" class="edit-btn btn btn-light btn-sm" data-toggle="modal" data-target="#editModal" data-id="${id}" data-name="${name}" data-username="${username}" data-role="${role}">
                         <i class="h5 mdi mdi-pencil text-success"></i>
                     </button>
                     <button type="button" onclick="delConfirm('users','${id}')" data-id="${id}" class="btn btn-light btn-sm" data-toggle="tooltip" data-placement="top" title="Delete">
@@ -47,11 +47,14 @@ const insertUser = (btn, id) => {
     id != "" && (url = `${baseUrl}users/edit/${id}`, modal = "#editModal", optName = 'Edit');
 
     let name = $(`#name${optName}`).val(),
-        username = $(`#username${optName}`).val();
+        username = $(`#username${optName}`).val(),
+        role = $(`:radio[name="role${optName}"]:checked`).val();
+        console.log(role);
     $.post(url, {
         name: name,
         username: username,
-        password: $(`#password1${optName}`).val()
+        password: $(`#password1${optName}`).val(),
+        role: role,
     }).done((res) => {
         if(res.status == 1) {
             
@@ -62,7 +65,7 @@ const insertUser = (btn, id) => {
                 $(modal).modal('toggle');
                 changeTextBtn(btn, "Submit");
                 enableBtn(btn);
-                id == "" ? appendData(res.resId, name, username) : getData();
+                id == "" ? appendData(res.resId, name, username, role) : getData();
             },1000);
         }else{
 
@@ -80,6 +83,8 @@ const insertUser = (btn, id) => {
     });
 };
 
-const appendData = (id, name, username) => {
-    myTable.row.add([ myTable.rows().count()+1, `<p class="font-weight-bold text-primary m-0">${name}</p>`, username, generateOpr(id, name, username)]).draw().node();
+const appendData = (id, name, username, role) => {
+    let roleText = "Admin";
+    role != 0 && (roleText = "Superadmin");
+    myTable.row.add([ myTable.rows().count()+1, `<p class="font-weight-bold text-primary m-0">${name}</p>`, username, roleText,  generateOpr(id, name, username)]).draw().node();
 }

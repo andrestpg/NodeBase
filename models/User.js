@@ -14,9 +14,6 @@ const User = db.define('user', {
         validate: {
             notEmpty: true,
             notNull: true,
-            isAlphanumeric: {
-                msg: "Nama tidak boleh mengandung simbol!"
-            }
         }
     },
     role: {
@@ -33,9 +30,6 @@ const User = db.define('user', {
         validate: {
             notEmpty: true,
             notNull: true,
-            isAlphanumeric: {
-                msg: "Username tidak boleh mengandung simbol!"
-            }
         }
     },
     password: {

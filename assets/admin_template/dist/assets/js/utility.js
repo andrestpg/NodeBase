@@ -96,7 +96,6 @@ const delData = (name, id) => {
 $('#editModal').on('show.bs.modal', (e) => {
     let id =  $(e.relatedTarget).data('id')
     $('#editId').val(id);
-    $('#userEditForm .form-group #nameEdit, #userEditForm .form-group #usernameEdit').attr('placeholder', "memuat...");
 
     clearUserForm();
     hideAlert();
@@ -108,11 +107,14 @@ $('#editModal').on('shown.bs.modal', (e) => {
     let id = btn.data('id');
     let name = btn.data("name");
     let username = btn.data("username");
+    let role = btn.data('role');
+    let roleId = 1;
+    role == 1 && (roleId = 2);
 
     $('#userEditForm').attr('data-id', id);
     $('#userEditForm .form-group #nameEdit').val(name);
     $('#userEditForm .form-group #usernameEdit').val(username);
-    $('#userEditForm .form-group #nameEdit, #userEditForm .form-group #usernameEdit').attr('placeholder', "");
+    $(`#userEditForm .form-group #roleEdit${roleId}`).prop('checked', true);
 });
 
 $('#modelId').on('show.bs.modal', function(e){
