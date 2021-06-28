@@ -24,33 +24,37 @@ const requireAuth = (req, res, next) => {
 }
 
 const checkUser = async (req, res, next) => {
-    let conn = await checkDbConn();
-    if(conn){
-        const token = req.cookies.authToken;
-        res.locals.userRole = "Admin";
+    try{
+        const conn = await checkDbConn();
+        if(conn){
+            const token = req.cookies.authToken;
+            res.locals.userRole = "Admin";
+        
+            if(token){
+                jwt.verify(token, myToken.secretKey, async (err, decodedToken) => {
+                    if(err){
+                        res.locals.userLogin = null;
+                        next();
+                    }else{
+                        let user = await User.findOne({
+                            where: {
+                                id: decodedToken.id
+                            }
+                        });
     
-        if(token){
-            jwt.verify(token, myToken.secretKey, async (err, decodedToken) => {
-                if(err){
-                    res.locals.userLogin = null;
-                    next();
-                }else{
-                    let user = await User.findOne({
-                        where: {
-                            id: decodedToken.id
-                        }
-                    });
-
-                    res.locals.userLogin = user;
-                    user.role == 1 && (res.locals.userRole = "Superadmin");
-                    next();
-                }
-            });
+                        res.locals.userLogin = user;
+                        user.role == 1 && (res.locals.userRole = "Superadmin");
+                        next();
+                    }
+                });
+            }else{
+                res.locals.userLogin = null;
+                next();
+            }
         }else{
-            res.locals.userLogin = null;
-            next();
+            res.status(500).render('500', {title: "500"});
         }
-    }else{
+    }catch(err){
         res.status(500).render('500', {title: "500"});
     }
 }

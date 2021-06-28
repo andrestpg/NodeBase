@@ -19,11 +19,9 @@ app.use(express.static('assets'));
 //View Engine
 app.set('view engine', 'ejs');
 
-app.get('*', checkUser);
-app.post('*', checkUser);
 // Home-----------------
 app.get('/',async (req, res) => {
-    res.redirect('/users')
+    res.render('public/index');
 });
 // Users-----------------
 app.use('/users', requireAuth, require("./routes/userRoute"));
