@@ -24,58 +24,92 @@ const requireAuth = (req, res, next) => {
 }
 
 const checkUser = async (req, res, next) => {
-    try{
-        const conn = await checkDbConn();
-        if(conn){
-            const token = req.cookies.authToken;
-            res.locals.userRole = "Admin";
-        
-            if(token){
-                jwt.verify(token, myToken.secretKey, async (err, decodedToken) => {
-                    if(err){
-                        res.locals.userLogin = null;
-                        next();
-                    }else{
-                        let user = await User.findOne({
-                            where: {
-                                id: decodedToken.id
-                            }
-                        });
+    const conn = await checkDbConn();
     
-                        res.locals.userLogin = user;
-                        user.role == 1 && (res.locals.userRole = "Superadmin");
-                        next();
-                    }
-                });
-            }else{
-                res.locals.userLogin = null;
-                next();
-            }
+    if(conn){
+        const token = req.cookies.authToken;
+        res.locals.userRole = "Admin";
+    
+        if(token){
+            jwt.verify(token, myToken.secretKey, async (err, decodedToken) => {
+                if(err){
+                    res.locals.userLogin = null;
+                    next();
+                }else{
+                    let user = await User.findOne({
+                        where: {
+                            id: decodedToken.id
+                        }
+                    });
+
+                    res.locals.userLogin = user;
+                    user.role == 1 && (res.locals.userRole = "Superadmin");
+                    next();
+                }
+            });
         }else{
-            res.status(500).render('500', {title: "500"});
+            res.locals.userLogin = null;
+            next();
         }
-    }catch(err){
-        res.status(500).render('500', {title: "500"});
+    }else{
+        res.status(500).render('500');
     }
 }
 
-const checkUserLogin = (req, res, next) => {
-    const token = req.cookies.authToken;
+const checkUserLogin = async (req, res, next) => {
+    const conn = await checkDbConn();
 
-    if(token){
-        jwt.verify(token, myToken.secretKey, (err, decodedToken) => {
-            if(err){
-                console.log(err);
-                next();
-            }else{
-                console.log(decodedToken);
-                res.locals.baseUrl = "http://localhost:8888/"
-                res.redirect('/users');
-            }
-        });
-
+    if(conn){
+        const token = req.cookies.authToken;
+        if(token){
+            jwt.verify(token, myToken.secretKey, (err, decodedToken) => {
+                if(err){
+                    console.log(err);
+                    next();
+                }else{
+                    console.log(decodedToken);
+                    res.locals.baseUrl = "http://localhost:8888/"
+                    res.redirect('/users');
+                }
+            });
+    
+        }else{
+            next()
+        }
     }else{
-        next()
+        res.status(500).render('500');
+    }
+}
+
+const superAdminOnly = async (req, res, next) => {
+    const conn = checkDbConn();
+    res.locals.userRole = "Admin";
+
+    if(conn){
+        const token = req.cookies.authToken;
+        if(token){
+            jwt.verify(token, myToken.secretKey, async (err, decodedToken) => {
+                if(err){
+                    console.log(err);
+                    res.status(404).render('404');
+                }else{
+                    let user = await User.findOne({
+                        where: {
+                            id: decodedToken.id
+                        }
+                    });
+                    res.locals.userLogin = user;
+                    if(user.role == 2){
+                        res.locals.userRole = "Superadmin"
+                        next();
+                    }else{
+                        res.status(404).render('404');
+                    }
+                }
+            })
+        }else{
+            res.status(404).render('404')
+        }
     }
 }
 
@@ -89,4 +123,4 @@ const checkDbConn = async () => {
     }
 }
 
-module.exports = {requireAuth, checkUser, checkUserLogin};
+module.exports = {requireAuth, checkUser, checkUserLogin, superAdminOnly};

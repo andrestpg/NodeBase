@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const {requireAuth, checkUser} = require('./middleware/authMiddleware');
+const {requireAuth} = require('./middleware/authMiddleware');
 
 const app = express();
 app.listen(8888);
@@ -23,10 +23,14 @@ app.set('view engine', 'ejs');
 app.get('/',async (req, res) => {
     res.render('public/index');
 });
-// Users-----------------
-app.use('/users', requireAuth, require("./routes/userRoute"));
 // Auth-----------------
 app.use('/auth', require("./routes/authRoute"));
+// Users-----------------
+app.use('/users', requireAuth, require("./routes/userRoute"));
+// Kecamatan-----------------
+app.use('/kecamatan', requireAuth, require("./routes/kecRoute"));
+// Kecamatan-----------------
+app.use('/kelurahan', requireAuth, require("./routes/kelRoute"));
 
 // 404------------------
 app.use((req, res) => {

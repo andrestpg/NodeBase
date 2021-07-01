@@ -97,39 +97,29 @@ $('#editModal').on('show.bs.modal', (e) => {
     let id =  $(e.relatedTarget).data('id')
     $('#editId').val(id);
 
-    clearUserForm();
+    clearModalForm();
     hideAlert();
     enableSubmitBtn();
 });
 
 $('#editModal').on('shown.bs.modal', (e) => {
     let btn = $(e.relatedTarget);
-    let id = btn.data('id');
-    let name = btn.data("name");
-    let username = btn.data("username");
-    let role = btn.data('role');
-    let roleId = 1;
-    role == 1 && (roleId = 2);
-
-    $('#userEditForm').attr('data-id', id);
-    $('#userEditForm .form-group #nameEdit').val(name);
-    $('#userEditForm .form-group #usernameEdit').val(username);
-    $(`#userEditForm .form-group #roleEdit${roleId}`).prop('checked', true);
+    fillEditForm(btn);
 });
 
-$('#modelId').on('show.bs.modal', function(e){
-    clearUserForm();
+$('#addModal').on('show.bs.modal', function(e){
+    clearModalForm();
     hideAlert();
     enableSubmitBtn();
 });
 
-const clearUserForm = () => {
-    $('.form-control').removeClass('is-invalid').val('');
+const clearModalForm = () => {
+    $('.modal .form-control').removeClass('is-invalid').val('');
 }
 
-const showAlert = (msg) => {
-    $('.alert').removeClass('hide');
-    $('.err-message strong').html(msg);
+const showAlert = (modalId, msg) => {
+    $(`${modalId} .modal-body .alert`).removeClass('hide');
+    $(`${modalId} .modal-body .err-message strong`).html(msg);
 }
 
 const hideAlert = () => {
@@ -137,7 +127,8 @@ const hideAlert = () => {
 }
 
 const enableSubmitBtn = () => {
-    $('button[type="submit"]').prop('disabled', false);
+    let btn = $('button[type="submit"]');
+    enableBtn(btn);
 }
 
 const disableBtn = (btn) => {
@@ -166,4 +157,8 @@ const changeTextBtn = (btn, string) => {
     let loaderText = btn.children('span');
     loaderText.html(string);
 
+}
+
+if(typeof($('.selectize')) !== "undefined"){
+    globalThis.select = $('.selectize').selectize();
 }

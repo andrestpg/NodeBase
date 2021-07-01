@@ -43,8 +43,8 @@ const User = db.define('user', {
 });
 
 
-(async () => {
-    await db.sync({alter: true});
-})();
+// (async () => {
+//     await db.sync({alter: true});
+// })();
 
 module.exports = User;

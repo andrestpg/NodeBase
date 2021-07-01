@@ -200,7 +200,7 @@ body[data-topbar="colored"] .app-search .form-control {
 
 body[data-topbar="colored"] .app-search span,
 body[data-topbar="colored"] .app-search input.form-control::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.5); }
+  color: rgba(0, 0, 0, 0.5); }
 
 body[data-topbar="colored"] .header-item {
   color: #e9ecef; }

@@ -1,0 +1,149 @@
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Kelurahan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="alert alert-warning err-message hide" role="alert">
+                        <strong>Error</strong>
+                    </div>
+                    <form action="#" id="addForm" method="post">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="kecamatan">Kecamatan</label>
+                            <select class="selectize" name="kecamatan" id="kecamatan">
+                                <% kecamatan.forEach((kec)=> { %>
+                                    <option value="<%= kec.id %>">
+                                        <%= kec.nama %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="name">Nama</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Nama">
+                            <div class="invalid-feedback">
+                                Nama tidak valid!
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="nickname">Nickname</label>
+                                    <input type="text" class="form-control" name="nickname" id="nickname"
+                                        placeholder="Ex: PV">
+                                    <div class="invalid-feedback">
+                                        Nickname tidak valid!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="kodePos">Kode Pos</label>
+                                    <input type="number" class="form-control" name="kodePos" id="kodePos"
+                                        placeholder="36361">
+                                    <div class="invalid-feedback">
+                                        Kode Pos tidak valid!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button
+                                class="btn btn-primary btn-block waves-effect waves-light d-flex justify-content-center align-items-center"
+                                type="submit" style="width:fit-content;">
+                                <div class="loader-wrapper hide">
+                                    <div class="loader"></div>
+                                </div>
+                                <span class="mx-2">Submit</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Kelurahan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="alert alert-warning err-message hide" role="alert">
+                        <strong>Error</strong>
+                    </div>
+                    <form action="#" id="editForm" method="post" data-id="0">
+                        <input type="hidden" id="editId" value="">
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="kecamatanEdit">Kecamatan</label>
+                            <select class="selectize" name="kecamatanEdit" id="kecamatanEdit">
+                                <% kecamatan.forEach((kec)=> { %>
+                                    <option value="<%= kec.id %>">
+                                        <%= kec.nama %>
+                                    </option>
+                                    <% }) %>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold" for="nameEdit">Nama</label>
+                            <input type="text" class="form-control" name="nameEdit" id="nameEdit" placeholder="Nama">
+                            <div class="invalid-feedback">
+                                Nama tidak valid!
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="nicknameEdit">Nickname</label>
+                                    <input type="text" class="form-control" name="nicknameEdit" id="nicknameEdit"
+                                        placeholder="Ex: PV">
+                                    <div class="invalid-feedback">
+                                        Nickname tidak valid!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="kodePosEdit">Kode Pos</label>
+                                    <input type="number" class="form-control" name="kodePosEdit" id="kodePosEdit"
+                                        placeholder="36361">
+                                    <div class="invalid-feedback">
+                                        Kode Pos tidak valid!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button
+                                class="btn btn-primary btn-block waves-effect waves-light d-flex justify-content-center align-items-center"
+                                type="submit" style="width:fit-content;">
+                                <div class="loader-wrapper hide">
+                                    <div class="loader"></div>
+                                </div>
+                                <span class="mx-2">Submit</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -19,7 +19,7 @@ const postEditProfil = (btn) => {
             setTimeout(() => {
                 showLoadingBtn(btn);
                 changeTextBtn(btn, "Redirecting...");
-                location.assign(`${baseUrl}`);
+                location.assign(`${baseUrl}users`);
             },1000);
         }else{
             showAlert(res.desc),
