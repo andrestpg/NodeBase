@@ -7,7 +7,7 @@ const columns = [
 
 const getData = () => {
     $('#targetContent').html(loader);
-    const url = `${baseUrl}kelurahan/get`;
+    const url = `/kelurahan/get`;
     let dataset = [];
     $.get(url).done((res) => {
         $.each(res, (i, dt) => {
@@ -36,8 +36,8 @@ const generateOpr = (id, name, nickname, kodePos, kecamatan) => {
 const insertData = (btn, id) => {
     hideAlert();
 
-    let url = `${baseUrl}kelurahan/add`, modal = "#addModal", optName = '', selectForm = 0;
-    id != "" && (url = `${baseUrl}kelurahan/edit/${id}`, modal = "#editModal", optName = 'Edit',  selectForm = 1);
+    let url = `/kelurahan/add`, modal = "#addModal", optName = '', selectForm = 0;
+    id != "" && (url = `/kelurahan/edit/${id}`, modal = "#editModal", optName = 'Edit',  selectForm = 1);
 
     let name = $(`#name${optName}`).val(),
         nickname = $(`#nickname${optName}`).val(),

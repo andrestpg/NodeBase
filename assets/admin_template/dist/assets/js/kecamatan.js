@@ -7,7 +7,7 @@ const columns = [
 
 const getData = () => {
     $('#targetContent').html(loader);
-    const url = `${baseUrl}kecamatan/get`;
+    const url = `/kecamatan/get`;
     let dataset = [];
     $.get(url).done((res) => {
         $.each(res, (i, dt) => {
@@ -36,8 +36,8 @@ const generateOpr = (id, name, nickname, kodePos) => {
 const insertData = (btn, id) => {
     hideAlert();
 
-    let url = `${baseUrl}kecamatan/add`, modal = "#addModal", optName = '';
-    id != "" && (url = `${baseUrl}kecamatan/edit/${id}`, modal = "#editModal", optName = 'Edit');
+    let url = `/kecamatan/add`, modal = "#addModal", optName = '';
+    id != "" && (url = `/kecamatan/edit/${id}`, modal = "#editModal", optName = 'Edit');
 
     let name = $(`#name${optName}`).val(),
         nickname = $(`#nickname${optName}`).val(),

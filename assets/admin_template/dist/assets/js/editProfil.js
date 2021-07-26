@@ -5,7 +5,7 @@ const postEditProfil = (btn) => {
     hideAlert();
     let id = $('#userId').val();
 
-    let url = `${baseUrl}users/edit_profil/${id}`;
+    let url = `/users/edit_profil/${id}`;
     $.post(url, {
         name: $(`#name`).val(),
         username: $(`#username`).val(),
@@ -19,7 +19,7 @@ const postEditProfil = (btn) => {
             setTimeout(() => {
                 showLoadingBtn(btn);
                 changeTextBtn(btn, "Redirecting...");
-                location.assign(`${baseUrl}users`);
+                location.assign(`/users`);
             },1000);
         }else{
             showAlert(res.desc),

@@ -8,7 +8,7 @@ const columns = [
 
 const getData = () => {
     $('#targetContent').html(loader);
-    const url = `${baseUrl}users/get`;
+    const url = `/users/get`;
     let dataset = [];
     $.get(url).done((res) => {
         $.each(res, (i, dt) => {
@@ -44,8 +44,8 @@ const generateOpr = (id, name, username, role) => {
 const insertUser = (btn, id) => {
     hideAlert();
 
-    let url = `${baseUrl}users/add`, modal = "#addModal", optName = '';
-    id != "" && (url = `${baseUrl}users/edit/${id}`, modal = "#editModal", optName = 'Edit');
+    let url = `/users/add`, modal = "#addModal", optName = '';
+    id != "" && (url = `/users/edit/${id}`, modal = "#editModal", optName = 'Edit');
 
     let name = $(`#name${optName}`).val(),
         username = $(`#username${optName}`).val(),

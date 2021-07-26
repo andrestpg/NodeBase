@@ -32,7 +32,6 @@
 		<!-- Responsive datatable examples -->
 		<link href="/admin_template/dist/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
 		<script>
-			const baseUrl = 'http://localhost:8888/';
             const userRole = <%= userLogin.role %>;
 		</script>
 
@@ -162,14 +161,14 @@
 
                             <li>
                                 <a href="/" class="waves-effect">
-                                    <div class="d-inline-block icons-sm mr-1"><i class="uim uim-airplay"></i></div>
+                                    <div class="d-inline-block icons-sm mr-1"><i class="mdi mdi-home"></i></div>
                                     <span>Beranda</span>
                                 </a>
                             </li>
 
                             <li>
                                 <a href="/users" class=" waves-effect">
-                                    <div class="d-inline-block icons-sm mr-1"><i class="uim uim-sign-in-alt"></i></div>
+                                    <div class="d-inline-block icons-sm mr-1"><i class="mdi mdi-account-lock"></i></div>
                                     <span>User</span>
                                 </a>
                             </li>
@@ -177,7 +176,7 @@
                             <% if(userLogin.role == 2){ %>
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <div class="d-inline-block icons-sm mr-1"><i class="uim uim-box"></i></div>
+                                    <div class="d-inline-block icons-sm mr-1"><i class="mdi mdi-database"></i></div>
                                     <span>Opsi Data</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">

@@ -6,7 +6,7 @@ const authUser = (username, password) => {
     const remember = $(':checkbox[name="remember"]:checked').val();
     remember !== undefined && (saveDevice = 1);
     setTimeout(() => {
-        $.post(baseUrl+"auth/login", {
+        $.post("/auth/login", {
             username: username,
             password: password,
             saveDevice: saveDevice
