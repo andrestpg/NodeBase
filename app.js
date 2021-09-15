@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const {requireAuth, checkUser} = require('./middleware/authMiddleware');
+const {requireAuth} = require('./middleware/authMiddleware');
 
 const app = express();
-app.listen(8888);
+app.listen(process.env.PORT);
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -23,11 +25,10 @@ app.set('view engine', 'ejs');
 app.get('/',async (req, res) => {
     res.render('public/index');
 });
-// Users-----------------
-app.use('/users', requireAuth, require("./routes/userRoute"));
 // Auth-----------------
 app.use('/auth', require("./routes/authRoute"));
-
+// Users-----------------
+app.use('/users', requireAuth, require("./routes/userRoute"));
 // 404------------------
 app.use((req, res) => {
     res.status(404).render('404', {title: "404"});

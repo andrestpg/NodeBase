@@ -2,6 +2,15 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const {Op} = require('sequelize');
 
+module.exports.index = (req, res) => {
+    res.render('admin/user/index', {
+        title: "Data User",
+        validation: "userValidation.js",
+        script: "user.js",
+        path: "user"
+    });
+}
+
 module.exports.get_all = async (req, res) => {
     try{
         let userdata = await User.findAll({
@@ -12,7 +21,12 @@ module.exports.get_all = async (req, res) => {
                 'role',
             ],
             where: {
-                [Op.not]:{id: res.locals.userLogin.id}
+                id: {
+                    [Op.not]: res.locals.userLogin.id
+                },
+                role: {
+                    [Op.not]: 2
+                }
             },
             order: [
                 ['name', 'ASC']
@@ -41,32 +55,25 @@ module.exports.get_one = async (req, res) => {
                 'updatedAt'
             ],
             where: {
-                id: id
+                id: id,
+                [Op.not]:{role: 2}
             }
         })
         res.json(user);
     }catch(err){
         console.log(err);
-        res.status(500).json({
+        res.json({
             status: 0,
             message: "User tidak ditemukan!"
         });
     }
-}
-
-module.exports.user_get = (req, res) => {
-    res.render('admin/index', {
-        title: "Data User",
-        validation: "userValidation.js",
-        script: "user.js"
-    });
 }
  
 module.exports.user_add = async (req, res) => {
     const {name, username, password, role} = req.body;
     const hashPass = await hashPassword(password);
 
-    if(res.locals.userLogin.role === 1){
+    if(res.locals.userLogin.role !== 0){
         try{
             let user = await User.create({
                 name: name,
@@ -79,10 +86,9 @@ module.exports.user_add = async (req, res) => {
                 resId: user.id
             });
         }catch(err){
-            res.status(500).json({
+            res.json({
                 status: 0,
-                message: "gagal menyimpan data",
-                desc: err['errors'][0]['message'],
+                msg: err['errors'][0]['message'],
             });
         }
     }
@@ -109,7 +115,7 @@ module.exports.user_edit = async (req, res) => {
         };
     }
 
-    if(res.locals.userLogin.role === 1){
+    if(res.locals.userLogin.role !== 0){
         try{
             await User.update( postData, {
                 where: {
@@ -119,7 +125,7 @@ module.exports.user_edit = async (req, res) => {
             res.json({status:1});
         }catch(err){
             console.log(err);
-            res.status(500).json({
+            res.json({
                 status: 0,
                 message: "gagal mengubah data",
                 desc: err['errors'][0]['message'],
@@ -134,7 +140,7 @@ module.exports.user_edit = async (req, res) => {
 module.exports.user_delete = async (req, res) => {
     const id = req.params.id;
     
-    if(res.locals.userLogin.role === 1){
+    if(res.locals.userLogin.role !== 0){
         try{
             await User.destroy({
                 where: {

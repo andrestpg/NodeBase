@@ -4,7 +4,7 @@ const {checkUser} = require('../middleware/authMiddleware');
 
 const router = Router();
 
-router.get('/', checkUser, userController.user_get);
+router.get('/', checkUser, userController.index);
 router.get('/get', checkUser, userController.get_all);
 router.get('/get/:id', checkUser, userController.get_one);
 router.get('/edit_profil/:id', checkUser, userController.edit_profil_page);
